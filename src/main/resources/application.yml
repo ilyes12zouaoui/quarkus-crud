@@ -1,0 +1,67 @@
+food-api/mp-rest/url: https://foodish-api.herokuapp.com
+quarkus:
+  security:
+    users:
+      file:
+        realm-name: lass
+        enabled: true
+        users: basic-auth-users.yml
+        roles: basic-auth-roles.yml
+        plain-text: true
+#      embedded:
+#        enabled: true
+#        plain-text: true
+#        users:
+#          ilyes: ilyespass
+#        roles:
+#          ilyes: BASIC_ADMIN
+  flyway:
+    migrate-at-start: true
+  http:
+    auth:
+      basic: true
+mp:
+  jwt:
+    verify:
+      publickey:
+        location: publicKey.pem
+      issuer: "https://example.com/issuer"
+
+
+smallrye:
+  jwt:
+    sign:
+      key:
+        location: privateKey.pem
+
+"%dev":
+  quarkus:
+    swagger-ui:
+      enable: true
+    datasource:
+      db-kind: postgresql
+      username: example
+      password: example
+      jdbc:
+        url: jdbc:postgresql://localhost:5433/example
+    log:
+      console:
+        enable: true
+        format: '%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %t %X{correlation-id} %c{3.}:%L %s%e%n'
+        json: false
+"%test":
+  flyway:
+    migrate-at-start: true
+    clean-at-start: true
+  quarkus:
+    log:
+      console:
+        enable: true
+        format: '%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %t %X{correlation-id} %c{3.}:%L %s%e%n'
+        json: false
+    swagger-ui:
+      enable: true
+"%prod":
+  quarkus:
+    swagger-ui:
+      enable: false
